@@ -2,8 +2,8 @@
 //  APIManager.swift
 //  twitter_alamofire_demo
 //
-//  Created by Charles Hieger on 4/4/17.
-//  Copyright © 2017 Charles Hieger. All rights reserved.
+//  Created by Han Chi on 3/6/18.
+//  Copyright © 2018 Han Chi. All rights reserved.
 //
 
 import Foundation
@@ -81,15 +81,15 @@ class APIManager: SessionManager {
 
         // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
         // tweets,
-        if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
-            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
-            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
-                Tweet(dictionary: dictionary)
-            })
-
-            completion(tweets, nil)
-            return
-        }
+//        if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
+//            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
+//            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+//                Tweet(dictionary: dictionary)
+//            })
+//
+//            completion(tweets, nil)
+//            return
+//        }
 
         request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get)
             .validate()
@@ -125,6 +125,7 @@ class APIManager: SessionManager {
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
+                print("hello")
                 let tweet = Tweet(dictionary: tweetDictionary)
                 completion(tweet, nil)
             } else {
@@ -150,14 +151,17 @@ class APIManager: SessionManager {
     
     // MARK: TODO: Retweet
     func retweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/retweet/:id.json"
+        let urlString = "https://api.twitter.com/1.1/statuses/retweet/" + String(tweet.id) + ".json"
         let parameters = ["id": tweet.id]
+        print("in retweet:")
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
                 let tweet = Tweet(dictionary: tweetDictionary)
+                print("hello")
                 completion(tweet, nil)
             } else {
+                print("error")
                 completion(nil, response.result.error)
             }
         }
@@ -165,14 +169,17 @@ class APIManager: SessionManager {
     
     // MARK: TODO: Un-Retweet
     func un_retweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/unretweet/:id.json"
+        let urlString = "https://api.twitter.com/1.1/statuses/unretweet/" + String(tweet.id) + ".json"
         let parameters = ["id": tweet.id]
+        print("in un_retweet")
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
                 let tweet = Tweet(dictionary: tweetDictionary)
+                print("hello")
                 completion(tweet, nil)
             } else {
+                print("error")
                 completion(nil, response.result.error)
             }
         }

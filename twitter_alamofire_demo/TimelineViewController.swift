@@ -2,8 +2,8 @@
 //  TimelineViewController.swift
 //  twitter_alamofire_demo
 //
-//  Created by Charles Hieger on 6/18/17.
-//  Copyright © 2017 Charles Hieger. All rights reserved.
+//  Created by Han Chi on 3/6/18.
+//  Copyright © 2018 Han Chi. All rights reserved..
 //
 
 import UIKit

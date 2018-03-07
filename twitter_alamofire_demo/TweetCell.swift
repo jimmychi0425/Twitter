@@ -2,8 +2,8 @@
 //  TweetCell.swift
 //  twitter_alamofire_demo
 //
-//  Created by Charles Hieger on 6/18/17.
-//  Copyright © 2017 Charles Hieger. All rights reserved.
+//  Created by Han Chi on 3/6/18.
+//  Copyright © 2018 Han Chi. All rights reserved.
 //
 
 import UIKit
@@ -35,7 +35,6 @@ class TweetCell: UITableViewCell {
             timestampLabel.text = tweet.createdAtString
             favoriteCountLabel.text = String(tweet.favoriteCount!)
             retweetCountLabel.text = String(tweet.retweetCount)
-            
             if tweet.favorited! {
                 favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: .normal)
             }
@@ -74,6 +73,8 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func didTapRetweet(_ sender: Any) {
+        print(tweet.retweeted)
+        print(tweet.retweetCount)
         if tweet.retweeted {
             tweet.retweeted = false
             retweetButton.setImage(UIImage(named: "retweet-icon"), for: .normal)
